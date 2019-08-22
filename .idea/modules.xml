@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../UMS/.idea/UMS.iml" filepath="$PROJECT_DIR$/../UMS/.idea/UMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/laraapi.iml" filepath="$PROJECT_DIR$/.idea/laraapi.iml" />
+      <module fileurl="file://$USER_HOME$/Zend/workspaces/DefaultWorkspace/php/.idea/php.iml" filepath="$USER_HOME$/Zend/workspaces/DefaultWorkspace/php/.idea/php.iml" />
+      <module fileurl="file://$USER_HOME$/Zend/workspaces/DefaultWorkspace/php-patch/.idea/php-patch.iml" filepath="$USER_HOME$/Zend/workspaces/DefaultWorkspace/php-patch/.idea/php-patch.iml" />
     </modules>
   </component>
 </project>
