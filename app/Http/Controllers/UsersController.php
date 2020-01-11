@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Compound;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -14,9 +16,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-       return response()->json(
-           ['data' => User::get(), 'success' => true]
-       );
+        return response()->json(
+            ['data' => User::get(), 'success' => true]
+        );
     }
 
     /**
@@ -32,7 +34,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -43,33 +45,30 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $data = [];
+        $message = '';
 
+        try {
 
-            try {
-                return response()->json([
-                    'data' => User::findOrFail($id),
-                    'success' => true
-                ]);
+            $data = User::findOrFail($id);
+            $success = true;
 
-            } catch (\Exception $e) {
-                return response()->json([
-                    'data' => [],
-                    'message' => $e->getMessage(),
-                    'success' => false
-                ]);
-            }
-
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $success = true;
+        }
+        return compact('data', 'message', 'id');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,19 +79,34 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [];
+        $message = '';
+
+        try {
+
+            $User = User::findOrFail($id);
+            $success = true;
+            $postData = $request->except('id');
+            $data['password'] = Hash::make('test');
+            $success = $User->update($postData);
+            $data = $User;
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $success = true;
+        }
+        return compact('data', 'message', 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
