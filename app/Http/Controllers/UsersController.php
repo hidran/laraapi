@@ -39,7 +39,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [];
+        $message = '';
+        try {
+            $User = new User();
+            $postData = $request->except('id', '_method');
+            $postData['password'] = Hash::make($postData['password'] ?? 'password');
+            $User->fill($postData);
+            $success = $User->save();
+            $data = $User;
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $success = true;
+        }
+        return compact('data', 'message', 'success');
     }
 
     /**
@@ -93,7 +106,7 @@ class UsersController extends Controller
             $User = User::findOrFail($id);
             $success = true;
             $postData = $request->except('id');
-            $data['password'] = Hash::make('test');
+            $postData['password'] = Hash::make($postData['password'] ?? 'password');
             $success = $User->update($postData);
             $data = $User;
         } catch (\Exception $e) {
