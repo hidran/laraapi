@@ -22,7 +22,7 @@ class UsersController extends Controller
     public function index()
     {
         return response()->json(
-            ['data' => User::get(), 'success' => true]
+            ['data' => User::orderBy('id','DESC')->get(), 'success' => true]
         );
     }
 
